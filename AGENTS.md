@@ -1,7 +1,7 @@
 # AGENTS.md — jankytext
 
 ## Project Overview
-jankytext is an agent-agnostic Go CLI for cleaning text copied from terminals, coding agents, command output, and transcript panes. The core product is browser-free and deterministic, with future editor, launcher, and agent integrations expected to wrap the same executable rather than reimplement cleanup logic.
+jankytext is an agent-agnostic text cleanup product for terminal output, command output, logs, stack traces, and agent transcripts. In agent chats, `jankytext` means cleaning the most recent relevant messy text already present in conversation. On desktop, the Go CLI cleans the system clipboard in place.
 
 ## Tech Stack
 > **Note to AI agents:** Check `go.mod` for the current Go directive and module path.
@@ -12,15 +12,19 @@ jankytext is an agent-agnostic Go CLI for cleaning text copied from terminals, c
 ## Project Structure
 > **Note to AI agents:** List the project root to discover current layout.
 - **cmd/jankytext/** — CLI argument parsing, command dispatch, and user-facing command behavior.
+- **docs/** — Shared product behavior specs for agent and CLI surfaces.
 - **internal/cleaner/** — Deterministic text cleanup logic and tests.
 - **internal/cleaner/testdata/** — Before/after fixture cases for cleanup behavior.
 - **internal/clipboard/** — Platform clipboard adapters used by `jankytext clip`.
+- **prompts/** — Copyable instructions for generic agents, ChatGPT, and Claude.
+- **skills/jankytext/** — Codex-style skill package for agent-native jankytext behavior.
 
 ## Code Conventions
 - Keep cleanup behavior deterministic and fixture-backed.
 - Prefer conservative heuristics that preserve code, command output, JSON, YAML, diffs, logs, and test output.
-- Keep agent-specific behavior out of core cleanup logic unless it generalizes to copied terminal or transcript text.
-- Keep integrations thin; they should call the CLI or shared cleaner code instead of duplicating cleanup rules.
+- Keep agent-native behavior aligned with `docs/agent-behavior.md`.
+- Keep desktop CLI workflows clipboard-in-place; do not require users to copy cleaned text back out of terminal output.
+- Keep integrations thin; they should follow the shared behavior contract or call the CLI/shared cleaner code instead of duplicating cleanup rules.
 - Use the standard library unless a dependency clearly improves cross-platform reliability.
 
 ## Formatting & Linting

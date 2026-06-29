@@ -1,0 +1,4 @@
+interface:
+  display_name: "jankytext"
+  short_description: "Clean messy terminal and agent text"
+  default_prompt: "jankytext"

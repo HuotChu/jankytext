@@ -1,6 +1,6 @@
 # jankytext
 
-Clean copied terminal text without opening a website.
+Clean messy terminal and agent text without copying it twice.
 
 ## What It Fixes
 
@@ -12,9 +12,58 @@ jankytext cleans common copy/paste problems from terminal and agent output:
 - prose that was wrapped by a narrow terminal
 - common copied shell prompts and quote markers
 
-It tries to preserve code, command output, JSON, YAML, diffs, logs, and test output.
+It tries to preserve code, command output, JSON, YAML, diffs, logs, stack traces, and test output.
 
-## Install
+## Use In An Agent Chat
+
+This is the main mobile-friendly workflow.
+
+No CLI install is needed for this mode. Configure the agent with one of the prompt or skill files below, then use `jankytext` inside the conversation.
+
+When an agent has already produced messy terminal output, reply:
+
+```text
+jankytext
+```
+
+The agent should clean the most recent relevant output already in the conversation and return only the cleaned text.
+
+Useful variants:
+
+```text
+jankytext that
+jankytext the last output
+jankytext the error above
+/jankytext
+```
+
+You should not need to copy messy text out of the chat, paste it back into the chat, and copy it again.
+
+Reusable agent instructions are in:
+
+- `prompts/generic-agent.md`
+- `prompts/chatgpt.md`
+- `prompts/claude.md`
+- `skills/jankytext/SKILL.md`
+
+The shared behavior contract is in `docs/agent-behavior.md`.
+
+## Use On Desktop
+
+The desktop CLI cleans your clipboard in place.
+
+1. Copy messy text from a terminal, agent, log, or transcript.
+2. Run this from any terminal:
+
+```sh
+jankytext
+```
+
+3. Paste. Your clipboard now contains the cleaned text.
+
+The CLI should not require copying cleaned output back out of the terminal.
+
+## Install The CLI
 
 Download the latest release for your system:
 
@@ -42,40 +91,7 @@ If you already have Go installed, this also works:
 go install github.com/HuotChu/jankytext/cmd/jankytext@latest
 ```
 
-Phones are not covered well by the CLI version. For Android and iOS, a small web or mobile version is the more accessible future path.
-
-## Use From An Agent
-
-jankytext works with Codex, Claude Code, Devin, VS Code agent plugins, and other terminal-based tools because it is just a command.
-
-1. Copy messy text from a terminal, agent, log, or transcript.
-2. Ask your agent:
-
-```text
-run jankytext
-```
-
-or just:
-
-```text
-jankytext
-```
-
-3. Paste. Your clipboard now contains the cleaned text.
-
-If you later add a jankytext skill or slash command in an agent, use whatever shortcut that agent exposes, such as `/jankytext`.
-
-## Use Directly
-
-From any terminal:
-
-```sh
-jankytext
-```
-
-That command reads your clipboard, cleans the text, and puts the cleaned text back on your clipboard.
-
-## Less Common Uses
+## Less Common CLI Uses
 
 Preview the cleaned clipboard without changing it:
 
