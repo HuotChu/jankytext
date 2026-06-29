@@ -21,6 +21,30 @@ jankytext clip
 jankytext clip --preview
 ```
 
+## Install
+
+With Go installed:
+
+```sh
+go install github.com/HuotChu/jankytext/cmd/jankytext@latest
+```
+
+Make sure your Go binary directory is on `PATH`. By default this is usually `~/go/bin`.
+
+After installing:
+
+```sh
+jankytext --version
+jankytext clip --preview
+```
+
+For a local checkout:
+
+```sh
+make build
+./bin/jankytext --help
+```
+
 ## Modes
 
 - `conservative`: normalize newlines, strip ANSI/control characters, resolve carriage-return redraws, and trim trailing whitespace.
