@@ -10,7 +10,12 @@ import (
 	"github.com/HuotChu/jankytext/internal/clipboard"
 )
 
-const version = "0.1.0"
+const version = "0.1.1"
+
+var stdinIsTerminal = func() bool {
+	info, err := os.Stdin.Stat()
+	return err == nil && (info.Mode()&os.ModeCharDevice) != 0
+}
 
 func main() {
 	if err := run(os.Args[1:], os.Stdin, os.Stdout, os.Stderr); err != nil {
@@ -22,6 +27,9 @@ func main() {
 func run(args []string, stdin io.Reader, stdout io.Writer, stderr io.Writer) error {
 	if len(args) > 0 && args[0] == "clip" {
 		return runClip(args[1:], stdout)
+	}
+	if len(args) == 0 && stdinIsTerminal() {
+		return runClip(nil, stdout)
 	}
 	return runClean(args, stdin, stdout)
 }
@@ -49,6 +57,15 @@ func runClean(args []string, stdin io.Reader, stdout io.Writer) error {
 	options, err := cleanerOptions(*mode, *stripPrompts)
 	if err != nil {
 		return err
+	}
+
+	if flags.NArg() == 0 && stdinIsTerminal() {
+		input, err := clipboard.Read()
+		if err != nil {
+			return err
+		}
+		output := cleaner.Clean(input, options)
+		return clipboard.Write(output)
 	}
 
 	input, err := readInputs(stdin, flags.Args())
@@ -130,8 +147,9 @@ func usageError(err error) error {
 
 func printUsage(w io.Writer) {
 	fmt.Fprint(w, `Usage:
-  jankytext [flags] [file ...]
-  jankytext clip [flags]
+  jankytext                  clean the clipboard
+  jankytext < file.txt
+  jankytext clip --preview
 
 Flags:
   --mode conservative|standard|aggressive

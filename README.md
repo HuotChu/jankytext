@@ -1,25 +1,19 @@
 # jankytext
 
-`jankytext` cleans text copied from terminals, coding agents, command output, and transcript panes so it can be pasted into prompts, docs, issues, and chat without visual junk or broken wrapping.
+Clean copied terminal text without opening a website.
 
-It is agent-agnostic by design. The core tool is a CLI; editor, launcher, and agent integrations can wrap the same executable later.
+## Use It
 
-## Product stance
-
-- Cross-agent: useful with Codex, Claude Code, Devin, VS Code agent plugins, terminals, and issue trackers.
-- Browser-free: cleanup should work without opening a website or re-copying from a web page.
-- Deterministic first: cleanup behavior should be covered by fixtures before it grows more clever.
-- Integration-friendly: v1 is a CLI; later wrappers should call the same executable instead of reimplementing cleanup logic.
-
-## Usage
+1. Copy messy text from a terminal, coding agent, log, or transcript.
+2. Run:
 
 ```sh
-jankytext < copied.txt
-jankytext --mode conservative < copied.txt
-jankytext --mode aggressive < copied.txt
-jankytext clip
-jankytext clip --preview
+jankytext
 ```
+
+3. Paste. Your clipboard now contains the cleaned text.
+
+That is the main workflow.
 
 ## Install
 
@@ -31,37 +25,69 @@ go install github.com/HuotChu/jankytext/cmd/jankytext@latest
 
 Make sure your Go binary directory is on `PATH`. By default this is usually `~/go/bin`.
 
-After installing:
+Check that it works:
 
 ```sh
 jankytext --version
+```
+
+## Use It From An Agent
+
+jankytext works with Codex, Claude Code, Devin, VS Code agent plugins, and other terminal-based tools because it is just a command.
+
+Copy the messy text, then ask the agent:
+
+```text
+Run jankytext to clean my clipboard.
+```
+
+If the agent needs the exact command, it is:
+
+```sh
+jankytext
+```
+
+## What It Fixes
+
+jankytext cleans common copy/paste problems from terminal and agent output:
+
+- color and control characters
+- trailing whitespace
+- progress lines that redraw in place
+- prose that was wrapped by a narrow terminal
+- common copied shell prompts and quote markers
+
+It tries to preserve code, command output, JSON, YAML, diffs, logs, and test output.
+
+## Less Common Uses
+
+Preview the cleaned clipboard without changing it:
+
+```sh
 jankytext clip --preview
 ```
 
-For a local checkout:
+Clean a file or piped text instead of the clipboard:
 
 ```sh
-make build
-./bin/jankytext --help
+jankytext < copied.txt
+cat copied.txt | jankytext
 ```
 
-## Modes
+Use a different cleanup level:
 
-- `conservative`: normalize newlines, strip ANSI/control characters, resolve carriage-return redraws, and trim trailing whitespace.
-- `standard`: conservative cleanup plus cautious prose unwrapping.
-- `aggressive`: standard cleanup plus common quote-marker and shell-prompt stripping.
+```sh
+jankytext --mode conservative < copied.txt
+jankytext --mode aggressive < copied.txt
+```
+
+Most users should not need these commands.
 
 ## Development
 
 ```sh
 make test
 make build
-make install
-go run ./cmd/jankytext --help
 ```
 
-## Fixture tests
-
-Cleanup behavior lives in `internal/cleaner` and is tested with plain unit cases plus before/after fixtures in `internal/cleaner/testdata`.
-
-When a copied terminal sample cleans badly, add a focused `.in` and `.want` fixture before changing the heuristic.
+Cleanup behavior is tested with unit cases and before/after fixtures in `internal/cleaner/testdata`.
