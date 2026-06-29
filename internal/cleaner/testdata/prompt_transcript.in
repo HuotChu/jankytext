@@ -1,0 +1,6 @@
+~/Projects/jankytext $ go test ./...
+?   	github.com/HuotChu/jankytext/cmd/jankytext	[no test files]
+ok  	github.com/HuotChu/jankytext/internal/cleaner	0.232s
+
+~/Projects/jankytext $ git status --short
+ M internal/cleaner/cleaner.go

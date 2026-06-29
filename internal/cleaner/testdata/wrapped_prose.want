@@ -1,0 +1,3 @@
+This is a paragraph copied from a terminal pane where the text wrapped because the pane was narrow. It should become one clean paragraph for pasting into a prompt or issue.
+
+This second paragraph should also reflow, but it should stay separate from the first paragraph because the blank line is intentional.

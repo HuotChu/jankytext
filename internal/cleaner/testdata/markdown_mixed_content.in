@@ -1,0 +1,14 @@
+Here is the change I made after reading the logs and the failing
+test output. The explanation wrapped in the terminal, so this part
+should become a single paragraph.
+
+- Keep this bullet as its own line.
+- Keep this second bullet as its own line.
+
+```go
+func main() {
+	fmt.Println("do not reflow code")
+}
+```
+
+{"event":"deploy","status":"ok"}
