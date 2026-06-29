@@ -2,19 +2,6 @@
 
 Clean copied terminal text without opening a website.
 
-## Use It
-
-1. Copy messy text from a terminal, coding agent, log, or transcript.
-2. Run:
-
-```sh
-jankytext
-```
-
-3. Paste. Your clipboard now contains the cleaned text.
-
-That is the main workflow.
-
 ## Install
 
 With Go installed:
@@ -31,21 +18,36 @@ Check that it works:
 jankytext --version
 ```
 
-## Use It From An Agent
+## Use From An Agent
 
 jankytext works with Codex, Claude Code, Devin, VS Code agent plugins, and other terminal-based tools because it is just a command.
 
-Copy the messy text, then ask the agent:
+1. Copy messy text from a terminal, agent, log, or transcript.
+2. Ask your agent:
 
 ```text
-Run jankytext to clean my clipboard.
+run jankytext
 ```
 
-If the agent needs the exact command, it is:
+or just:
+
+```text
+jankytext
+```
+
+3. Paste. Your clipboard now contains the cleaned text.
+
+If you later add a jankytext skill or slash command in an agent, use whatever shortcut that agent exposes, such as `/jankytext`.
+
+## Use Directly
+
+From any terminal:
 
 ```sh
 jankytext
 ```
+
+That command reads your clipboard, cleans the text, and puts the cleaned text back on your clipboard.
 
 ## What It Fixes
 
