@@ -2,21 +2,47 @@
 
 Clean copied terminal text without opening a website.
 
+## What It Fixes
+
+jankytext cleans common copy/paste problems from terminal and agent output:
+
+- color and control characters
+- trailing whitespace
+- progress lines that redraw in place
+- prose that was wrapped by a narrow terminal
+- common copied shell prompts and quote markers
+
+It tries to preserve code, command output, JSON, YAML, diffs, logs, and test output.
+
 ## Install
 
-With Go installed:
+Download the latest release for your system:
 
-```sh
-go install github.com/HuotChu/jankytext/cmd/jankytext@latest
-```
+[github.com/HuotChu/jankytext/releases/latest](https://github.com/HuotChu/jankytext/releases/latest)
 
-Make sure your Go binary directory is on `PATH`. By default this is usually `~/go/bin`.
+Available builds:
+
+- Windows: `jankytext_..._windows_amd64.zip`
+- macOS Apple Silicon: `jankytext_..._darwin_arm64.tar.gz`
+- macOS Intel: `jankytext_..._darwin_amd64.tar.gz`
+- Linux x64: `jankytext_..._linux_amd64.tar.gz`
+- Linux ARM64: `jankytext_..._linux_arm64.tar.gz`
+
+Unzip or untar the download, then put `jankytext` somewhere your terminal or agent can run it. On Windows, the program is `jankytext.exe`.
 
 Check that it works:
 
 ```sh
 jankytext --version
 ```
+
+If you already have Go installed, this also works:
+
+```sh
+go install github.com/HuotChu/jankytext/cmd/jankytext@latest
+```
+
+Phones are not covered well by the CLI version. For Android and iOS, a small web or mobile version is the more accessible future path.
 
 ## Use From An Agent
 
@@ -49,18 +75,6 @@ jankytext
 
 That command reads your clipboard, cleans the text, and puts the cleaned text back on your clipboard.
 
-## What It Fixes
-
-jankytext cleans common copy/paste problems from terminal and agent output:
-
-- color and control characters
-- trailing whitespace
-- progress lines that redraw in place
-- prose that was wrapped by a narrow terminal
-- common copied shell prompts and quote markers
-
-It tries to preserve code, command output, JSON, YAML, diffs, logs, and test output.
-
 ## Less Common Uses
 
 Preview the cleaned clipboard without changing it:
@@ -90,6 +104,7 @@ Most users should not need these commands.
 ```sh
 make test
 make build
+make dist
 ```
 
 Cleanup behavior is tested with unit cases and before/after fixtures in `internal/cleaner/testdata`.

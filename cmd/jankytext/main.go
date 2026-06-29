@@ -10,7 +10,7 @@ import (
 	"github.com/HuotChu/jankytext/internal/clipboard"
 )
 
-const version = "0.1.1"
+const version = "0.1.2"
 
 var stdinIsTerminal = func() bool {
 	info, err := os.Stdin.Stat()
