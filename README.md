@@ -1,3 +1,5 @@
+*This repo contains an experimental project that is laregely untested and is not ready for public use!*
+
 # jankytext
 
 Clean messy terminal and agent text without copying it twice.
